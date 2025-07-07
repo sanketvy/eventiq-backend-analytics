@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: eventiq-analytics
+  cassandra:
+    contact-points: 127.0.0.1   # Or container IP / service name
+    port: 9042
+    keyspace-name: eventiq_keyspace
+    local-datacenter: datacenter1       # Must match `dc` in cassandra-rackdc.properties
+    schema-action: create-if-not-exists  # or none, validate, recreate-drop-unused
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8001/realms/eventiq
+  config:
+    import: "consul:localhost:8500"
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+        prefer-ip-address: false
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        instance-id: ${spring.application.name}-${server.port}
+      config:
+        enabled: true
+        format: yaml
+        data-key: data
+
+server:
+  port: 9052
