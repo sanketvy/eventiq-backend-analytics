@@ -16,13 +16,18 @@ import java.util.UUID;
 @Builder
 public class EventsPrimaryKey implements Serializable {
 
-    @PrimaryKeyColumn(name = "project_id", type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKeyColumn(name = "projectId", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
     private String projectId;
 
-    @PrimaryKeyColumn(name = "event_time", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
-    private LocalDateTime eventTime;
+    @PrimaryKeyColumn(name = "eventType", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
+    private String eventType;
 
-    @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordinal = 2)
-    private UUID id;
+    @PrimaryKeyColumn(name = "eventTimestamp", type = PrimaryKeyType.CLUSTERED, ordinal = 2)
+    private long eventTimestamp;
 
+    @PrimaryKeyColumn(name = "sessionId", type = PrimaryKeyType.CLUSTERED, ordinal = 3)
+    private String sessionId;
+
+    @PrimaryKeyColumn(name = "randomId", type = PrimaryKeyType.CLUSTERED, ordinal = 4)
+    private String randomId;
 }

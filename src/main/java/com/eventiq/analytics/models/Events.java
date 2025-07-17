@@ -5,8 +5,6 @@ import lombok.Data;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.time.LocalDateTime;
-import java.util.Map;
 
 @Table("events")
 @Data
@@ -16,7 +14,15 @@ public class Events {
     @PrimaryKey
     private EventsPrimaryKey projectId;
 
-    private String type;
+    private String idAddress;
+
+    private String country;
+
+    private String city;
+
+    private String userAgent;
+
+    private String agentType;
 
     private String metaData;
 }

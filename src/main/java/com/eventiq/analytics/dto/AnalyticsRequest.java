@@ -3,7 +3,7 @@ package com.eventiq.analytics.dto;
 import lombok.Data;
 
 @Data
-public class DashboardRequest {
+public class AnalyticsRequest {
 
     private String projectId;
 
