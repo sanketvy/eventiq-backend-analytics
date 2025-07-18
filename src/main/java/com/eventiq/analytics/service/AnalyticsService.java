@@ -57,10 +57,6 @@ public class AnalyticsService {
         }
     }
 
-    public void getLocationAnalytics() {
-        clickhouseService.fetchSessionCountsByCountryAndCity();
-    }
-
     public List<SessionResponse> getSessionData(AnalyticsRequest analyticsRequest) {
         List<SessionResponse> response = new ArrayList<>();
 

@@ -1,14 +1,13 @@
 package com.eventiq.analytics.controller;
 
 import com.eventiq.analytics.dto.AnalyticsRequest;
-import com.eventiq.analytics.dto.DashboardResponse;
+import com.eventiq.analytics.dto.BrowserData;
+import com.eventiq.analytics.dto.CountryData;
 import com.eventiq.analytics.dto.SessionResponse;
-import com.eventiq.analytics.models.Sessions;
 import com.eventiq.analytics.service.AnalyticsService;
+import com.eventiq.analytics.service.ClickhouseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +18,11 @@ public class AnalyticsController {
 
     AnalyticsService analyticsService;
 
-    public AnalyticsController(AnalyticsService analyticsService){
+    ClickhouseService clickhouseService;
+
+    public AnalyticsController(AnalyticsService analyticsService, ClickhouseService clickhouseService){
         this.analyticsService = analyticsService;
+        this.clickhouseService = clickhouseService;
     }
 
     @PostMapping("/session")
@@ -34,13 +36,12 @@ public class AnalyticsController {
     }
 
     @PostMapping("/device")
-    public ResponseEntity<String> getAnalyticsByBrowser(@RequestBody AnalyticsRequest analyticsRequest){
-        return ResponseEntity.status(HttpStatus.OK).body("Ok");
+    public ResponseEntity<List<BrowserData>> getAnalyticsByBrowser(@RequestBody AnalyticsRequest analyticsRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(clickhouseService.fetchSessionCountsByBrowserAndDevice(analyticsRequest.getProjectId()));
     }
 
     @PostMapping("/location")
-    public ResponseEntity<String> getAnalyticsByLocation(@RequestBody AnalyticsRequest analyticsRequest){
-        analyticsService.getLocationAnalytics();
-        return ResponseEntity.status(HttpStatus.OK).body("Ok");
+    public ResponseEntity<List<CountryData>> getAnalyticsByLocation(@RequestBody AnalyticsRequest analyticsRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(clickhouseService.fetchSessionCountsByCountryAndCity(analyticsRequest.getProjectId()));
     }
 }
